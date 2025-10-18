@@ -1,25 +1,42 @@
 class Solution {
     public:
-        int helper(vector<vector<int>>& grid, int& m, int& n, int i, int j,
+        int helper(vector<vector<int>>& tri, int m, int i, int j,
                    vector<vector<int>>& dp) {
     
-            if (i == m - 1 && j == n - 1)
-                return grid[i][j];
-            
-            if(dp[i][j] != -1) return dp[i][j];
+            if (i == m - 1)
+                return tri[i][j];
     
-            int down = i + 1 != m ? grid[i][j] + helper(grid, m, n, i + 1, j, dp)
-                                  : INT_MAX;
-            int right = j + 1 != n ? grid[i][j] + helper(grid, m, n, i, j + 1, dp)
-                                   : INT_MAX;
+            if (dp[i][j] != INT_MIN)
+                return dp[i][j];
     
-            return dp[i][j] = min(down, right);
+            int same = tri[i][j] + helper(tri, m, i + 1, j, dp);
+            int oneStep = tri[i][j] + helper(tri, m, i + 1, j + 1, dp);
+    
+            return dp[i][j] = min(same, oneStep);
         }
-        int minPathSum(vector<vector<int>>& grid) {
-            int m = grid.size(), n = grid[0].size();
+        int minimumTotal(vector<vector<int>>& tri) {
     
-            vector<vector<int>> dp(m, vector<int>(n, -1));
+            int m = tri.size();
+
+            // BY RECURSION
+            // vector<vector<int>> dp(m, vector<int>(m, INT_MIN));
     
-            return helper(grid, m, n, 0, 0, dp);
+            // return helper(tri, m, 0, 0, dp);
+    
+
+            // BY TABULATION
+            vector<int> dp(m, INT_MIN);
+    
+            for (int i = 0; i < m; i++) {
+                dp[i] = tri[m - 1][i];
+            }
+    
+            for (int i = m - 2; i >= 0; i--) {
+                for (int j = 0;j <= i; j++) {
+                    dp[j] = tri[i][j] + min(dp[j],dp[j+1]);
+                }
+            }
+    
+            return dp[0];
         }
     };
