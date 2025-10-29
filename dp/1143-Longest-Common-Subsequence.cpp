@@ -60,8 +60,8 @@ class Solution {
 
             // BY RECURSION
             // vector<vector<int>> dp(n1, vector<int>(n2, -1));
-            // return recurrsion1(text1, text2, n1, n2, 0, 0, dp);
-            // return recurrsion2(text1, text2, n1, n2, n1 - 1, n2 - 1, dp);
+            // return recurrsion1(text1, text2, n1, n2, 0, 0, dp); O(2^n1 * 2^n2) if recurrsion calls are made without using dp 
+            // return recurrsion2(text1, text2, n1, n2, n1 - 1, n2 - 1, dp); O(2^n1 * 2^n2) if recurrsion calls are made using dp
 
             // BY TABULATION
             return tabulation(text1, text2, n1, n2);
