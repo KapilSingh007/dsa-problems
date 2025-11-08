@@ -1,7 +1,7 @@
 class Solution {
     public:
-        bool helper(string& s, string& p, int& n, int& m, int i, int j,
-                    vector<vector<int>>& dp) {
+        bool approach1Recurssion(string& s, string& p, int& n, int& m, int i, int j,
+                                 vector<vector<int>>& dp) {
     
             if (i == n && j == m) {
                 return true;
@@ -11,34 +11,54 @@ class Solution {
                 return false;
             }
             if (i == n) {
-                for(int k = j;k<m;k++){
-                    if(p[k] != '*'){
+                for (int k = j; k < m; k++) {
+                    if (p[k] != '*') {
                         return false;
                     }
                 }
                 return true;
-                
             }
     
-    
-            if(dp[i][j] !=-1){
+            if (dp[i][j] != -1) {
                 return dp[i][j];
             }
     
             if (s[i] == p[j] || p[j] == '?') {
-                return dp[i][j] =helper(s, p, n, m, i + 1, j + 1,dp);
+                return dp[i][j] = approach1Recurssion(s, p, n, m, i + 1, j + 1, dp);
             }
             if (p[j] == '*') {
-                return dp[i][j] = helper(s, p, n, m, i + 1, j,dp) ||
-                       helper(s, p, n, m, i, j + 1,dp) ;
+                return dp[i][j] = approach1Recurssion(s, p, n, m, i + 1, j, dp) ||
+                                  approach1Recurssion(s, p, n, m, i, j + 1, dp);
             }
     
             return dp[i][j] = false;
         }
     
+        bool approach2Tabulation(string& s, string& p, int& n, int& m) {
+            vector<vector<bool>> dp(n + 1, vector<bool>(m + 1, false));
+    
+            for (int i = 0; i <= m; i++) {
+                dp[0][i] = i == 0 || (p[i - 1] == '*' && dp[0][i - 1]);
+            }
+            for (int i = 1; i <= n; i++) {
+                for (int j = 1; j <= m; j++) {
+    
+                    if (s[i - 1] == p[j - 1] || p[j - 1] == '?') {
+                        dp[i][j] = dp[i - 1][j - 1];
+                    } else if (p[j - 1] == '*') {
+                        dp[i][j] = dp[i - 1][j] || dp[i][j - 1];
+                    }
+                }
+            }
+    
+            return dp[n][m];
+        }
+    
         bool isMatch(string s, string p) {
             int n = s.size(), m = p.size(), i = 0, j = 0;
-            vector<vector<int>> dp(n, vector<int>(m, -1));
-            return helper(s, p, n, m, 0, 0, dp);
+            // vector<vector<int>> dp(n, vector<int>(m, -1));
+            // return approach1Recurssion(s, p, n, m, 0, 0, dp);
+    
+            return approach2Tabulation(s, p, n, m);
         }
     };
