@@ -41,13 +41,35 @@ class Solution {
     
             return dp[i][prev] = max(take, notTake);
         }
+    
+        int approach2Tabulation(vector<string>& words, int& n) {
+    
+            vector<int> dp(n, 1);
+            int res = 1;
+    
+            for (int i = 1; i < n; i++) {
+    
+                for (int j = 0; j < i; j++) {
+                    if (check(words[j], words[i]) && dp[i] < dp[j] + 1) {
+                        dp[i] = dp[j] + 1;
+                    }
+                }
+    
+                res = max(res, dp[i]);
+            }
+    
+            return res;
+        }
         int longestStrChain(vector<string>& words) {
             sort(words.begin(), words.end(), [](const string& a, const string& b) {
                 return a.size() < b.size();
             });
+    
             int n = words.size();
-            vector<vector<int>> dp(n + 1, vector<int>(n + 1, -1));
-           
-            return approach1Recurrsion(words, n, 1, 0, dp);
+    
+            // vector<vector<int>> dp(n + 1, vector<int>(n + 1, -1));
+            // return approach1Recurrsion(words, n, 1, 0, dp);
+    
+            return approach2Tabulation(words, n);
         }
     };
