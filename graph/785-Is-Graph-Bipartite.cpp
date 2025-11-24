@@ -26,10 +26,47 @@ class Solution {
             }
             return true;
         }
+    
+        bool approach2BFS(vector<vector<int>>& graph, int n, vector<int>& vis) {
+    
+            queue<int> q;
+            int color = 0, qSz, currNode;
+    
+            for (int i = 0; i < n; i++) {
+                if (vis[i] == -1) {
+                    vis[i] = color;
+                    q.push(i);
+    
+                    while (!q.empty()) {
+                        qSz = q.size();
+    
+                        while (qSz--) {
+                            currNode = q.front();
+                            q.pop();
+                            for (int x : graph[currNode]) {
+                                if (vis[x] == vis[currNode]) {
+                                    return false;
+                                }
+    
+                                if (vis[x] == -1) {
+                                    vis[x] = !color;
+                                    q.push(x);
+                                }
+                            }
+                        }
+                        color = !color;
+                    }
+                }
+            }
+    
+            return true;
+        }
         bool isBipartite(vector<vector<int>>& graph) {
             int n = graph.size();
             vector<int> vis(n, -1);
     
-            return approach1DFS(graph, n, vis);
+            // return approach1DFS(graph, n, vis);
+    
+            return approach2BFS(graph, n, vis);
         }
     };
