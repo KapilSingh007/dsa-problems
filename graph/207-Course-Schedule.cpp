@@ -83,7 +83,7 @@ class Solution {
             // return approach1DFS(adj, numCourses);
 
 
-            // Thats why we use BFS to detect cycle in a directed graph
+            // Thats why we use BFS to in 207. Course Schedule
             return approach2BFS(prerequisites, adj, numCourses);
         }
     };
