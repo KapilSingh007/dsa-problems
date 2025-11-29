@@ -5,7 +5,7 @@ class Solution {
             vector<vector<int>> adj(n, vector<int>());
             int sz = prerequisites.size();
             for (int i = 0; i < sz; i++) {
-                adj[prerequisites[i][0]].push_back(prerequisites[i][1]);
+                adj[prerequisites[i][1]].push_back(prerequisites[i][0]);
             }
     
             return adj;
@@ -51,7 +51,7 @@ class Solution {
             queue<int> q;
             int resSz = 0, currNode;
             for (int i = 0; i < n; i++) {
-                indegree[prerequisites[i][1]]++;
+                indegree[prerequisites[i][0]]++;
             }
     
             for (int i = 0; i < V; i++) {
