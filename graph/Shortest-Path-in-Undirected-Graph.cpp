@@ -33,14 +33,33 @@ class Solution {
                     }
                 }
             }
-            
+    
+            return res;
+        }
+    
+        void dfsHelper(vector<vector<int>>& adj, vector<int>& res, int parent) {
+            for (int x : adj[parent]) {
+                if (res[x] == -1 || res[x] > res[parent] + 1) {
+                    res[x] = res[parent] + 1;
+                    dfsHelper(adj, res, x);
+                }
+            }
+        }
+        vector<int> approach2DFS(int V, vector<vector<int>>& edges, int src) {
+            vector<vector<int>> adj = createAdj(V, edges);
+            vector<int> res(V, -1);
+            res[src] = 0;
+    
+            dfsHelper(adj, res, src);
             return res;
         }
         vector<int> shortestPath(int V, vector<vector<int>>& edges, int src) {
             // code here
             vector<int> res(V, -1);
     
-            return approach1BFS(V, edges, src);
+            // return approach1BFS(V, edges, src);
+    
+            return approach2DFS(V, edges, src); // DFs will give TLE for this question
         }
     };
     
