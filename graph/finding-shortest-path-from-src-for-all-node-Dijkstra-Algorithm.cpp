@@ -71,7 +71,7 @@ class Solution {
         vector<int> dijkstra(int V, vector<vector<int>>& edges, int src) {
             // Code here
             vector<vector<pair<int, int>>> adj = createAdj(V, edges);
-            // return approach1PQ(adj, V, src);
+            // return approach1PQ(adj, V, src); // it will give TLE for some last cases
     
             return approach1Set(adj, V, src);
         }
