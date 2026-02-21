@@ -24,6 +24,22 @@ class Solution {
                 nums[k - 1 - i] = temp[i];
             }
     
-            return;
+            return;// method 2 bases on reversing the array
+
+            reverseArrayByIndex(nums, 0, n - k - 1);
+            reverseArrayByIndex(nums, n - k, n - 1);
+            reverseArrayByIndex(nums, 0, n - 1);
+        }
+    
+        void reverseArrayByIndex(vector<int>& nums, int i, int j) {
+            int temp;
+            while (i < j) {
+                temp = nums[i];
+                nums[i] = nums[j];
+                nums[j] = temp;
+    
+                i++;
+                j--;
+            }
         }
     };
